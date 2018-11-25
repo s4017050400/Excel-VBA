@@ -1,0 +1,53 @@
+Option Explicit
+-----------------------------------------------------------------------
+Public Function avgF(c_num) 'calculating the average of column c_num and row i
+    Dim x, avg As Double
+    Dim i, total As Integer
+    i = 1 'row
+    x = 0 'number
+    Do While Cells(i, c_num).Value <> ""
+        x = Cells(i, c_num).Value + x
+        i = i + 1
+    Loop
+    total = i - 1
+    avgF = x / total
+    'MsgBox avgF & "/" & total
+End Function
+-----------------------------------------------------------------------
+Public Function standev(c_num) 'calculating the Standard Deviation of column c_num and row i
+    Dim x, total, avg As Double
+    Dim i As Integer
+    i = 1
+    x = 0
+    total = 0
+    avg = avgF(c_num)
+    Do While Cells(i, c_num).Value <> ""
+        x = Cells(i, c_num).Value - avg
+        total = x * x + total
+        i = i + 1
+    Loop
+    standev = Sqr(total / (i - 1))
+    
+End Function
+
+-----------------------------------------------------------------------
+Public Sub main() 'sub shows the userform1
+    Load UserForm1
+    UserForm1.Show
+    
+End Sub
+-----------------------------------------------------------------------
+
+Private Sub CommandButton1_Click()  'click "yes" show the all results of ck cp cpk
+    Dim col As Integer
+    usl = TextBox1.Value
+    lsl = TextBox2.Value
+    col = TextBox3.Value
+    t = usl - lsl
+    spec = t / 2 + lsl
+    ck = Abs(spec - avgF(col)) / (t / 2)
+    cp = t / (6 * standev(col))
+    cpk = cp * (1 - ck)
+    MsgBox cp & "/" & ck & "/" & cpk
+    
+End Sub
