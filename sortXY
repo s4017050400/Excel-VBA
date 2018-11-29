@@ -1,0 +1,49 @@
+Option Explicit
+Dim condi As String
+
+
+Public Sub t1()
+        
+    
+End Sub
+
+
+Public Function counter(row, col, condi) 'counter
+    Dim i As Integer
+    i = 0
+    Do While Cells(row, col).Value <> ""
+        
+        If Cells(row, col).Value = condi Then
+        i = i + 1 'counter
+        End If
+        row = row + 1 'contiune row to next
+    Loop
+    counter = i
+End Function
+
+Public Function sortTogroup(row, col)
+    Dim i, j, k As Integer
+    i = 1
+    j = 1
+    k = 1
+    Do While Cells(row, col).Value <> ""
+        Select Case Cells(row, col).Value
+            Case "A"
+            Sheets("工作表2").Cells(i, 1).Value = Cells(row, 2).Value
+            Sheets("工作表2").Cells(i, 2).Value = Cells(row, 4).Value
+            Sheets("工作表2").Cells(i, 3).Value = Cells(row, 6).Value
+            i = i + 1
+            Case "B"
+            Sheets("工作表2").Cells(j, 5).Value = Cells(row, 2).Value
+            Sheets("工作表2").Cells(j, 6).Value = Cells(row, 4).Value
+            Sheets("工作表2").Cells(j, 7).Value = Cells(row, 6).Value
+            j = j + 1
+            Case "C"
+            Sheets("工作表2").Cells(k, 9).Value = Cells(row, 2).Value
+            Sheets("工作表2").Cells(k, 10).Value = Cells(row, 4).Value
+            Sheets("工作表2").Cells(k, 11).Value = Cells(row, 6).Value
+            k = k + 1
+        End Select
+        row = row + 1
+    Loop
+End Function
