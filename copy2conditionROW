@@ -21,8 +21,6 @@ Public Sub text()
             Do While Cells(i, 1).Value <> ""       'paste selection in nan-value column
                 i = i + 1         'next column
             Loop
-        'Range(Cells(ary(3), 1), Cells(ary(4), 1)).Select
-        'Range(Cells(ary(5), 1), Cells(ary(6), 1)).Select
         Sheets("工作表1").Activate
     Next z
         Sheets("工作表2").Activate
