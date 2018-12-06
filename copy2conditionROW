@@ -25,4 +25,18 @@ Public Sub text()
     'Range(Cells(ary(5), 1), Cells(ary(6), 1)).Select
     Sheets("工作表1").Activate
     Next z
+    Sheets("工作表2").Activate
+    Call test3
+End Sub
+
+
+_______________________________________________________________________________________________
+
+Public Sub test3()      'delete "+++++++" terms
+    Dim r As Range
+    For Each r In Range("A:A")
+        If r.Value = "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" Then
+            r.Delete
+        End If
+    Next
 End Sub
