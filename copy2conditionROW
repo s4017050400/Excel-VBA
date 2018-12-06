@@ -2,7 +2,7 @@ Option Explicit
 
 Public Sub text()
     Dim r As Range
-    Dim ary(7), x, i, z As Integer
+    Dim ary(7), x, i, z As Integer  '存ABcolumn的矩陣
     x = 1
     i = 1
     z = 1
@@ -12,7 +12,7 @@ Public Sub text()
             x = x + 1       '1,2,3,4,5,6,7
         End If
     Next                            'get value of array(7),odd=a,even=b
-    For z = 1 To 3        'loop 3 times
+    For z = 1 To 3        'loop 3 times 3=(7-1)/2
         Range(Cells(ary(2 * z - 1), 1), Cells(ary(2 * z), 1)).Select
         Selection.Copy
         Sheets("工作表2").Activate
