@@ -1,0 +1,28 @@
+Option Explicit
+
+Public Sub text()
+    Dim r As Range
+    Dim ary(7), x, i, z As Integer
+    x = 1
+    i = 1
+    z = 1
+    For Each r In Range("A:A")  'loop in A column
+        If r.Value = "A" Or r.Value = "B" Then              'condition A next B
+            ary(x) = r.Row
+            x = x + 1       '1,2,3,4,5,6,7
+        End If
+    Next                            'get value of array(7),odd=a,even=b
+    For z = 1 To 3        'loop 3 times
+    Range(Cells(ary(2 * z - 1), 1), Cells(ary(2 * z), 1)).Select
+    Selection.Copy
+    Sheets("工作表2").Activate
+    Cells(i, 1).Select
+    ActiveSheet.Paste
+        Do While Cells(i, 1).Value <> ""       'paste selection in nan-value column
+            i = i + 1         'next column
+        Loop
+    'Range(Cells(ary(3), 1), Cells(ary(4), 1)).Select
+    'Range(Cells(ary(5), 1), Cells(ary(6), 1)).Select
+    Sheets("工作表1").Activate
+    Next z
+End Sub
