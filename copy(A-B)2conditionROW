@@ -18,9 +18,10 @@ Public Sub text()
         Sheets("工作表2").Activate
         Cells(i, 1).Select
         ActiveSheet.Paste
-            Do While Cells(i, 1).Value <> ""       'paste selection in nan-value column
-                i = i + 1         'next column
-            Loop
+          (1)   Do While Cells(i, 1).Value <> ""       'paste selection in nan-value column
+                    i = i + 1         'next column
+                Loop
+          (2)   i = ary(2 * z) - ary(2 * z - 1) + 4 '加四格 'length+4
         Sheets("工作表1").Activate
     Next z
         Sheets("工作表2").Activate
