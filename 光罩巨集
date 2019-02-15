@@ -67,7 +67,7 @@ End Sub
 
 '標題貼
 Public Sub main()
-    Application.ScreenUpdating = False
+    Application.ScreenUpdating = False  '不要在螢幕上顯示過程
     For Row = 2 To 4 'for row
         For Count = 1 To 160 'for col
             Sheets("-40C_AC").Activate
