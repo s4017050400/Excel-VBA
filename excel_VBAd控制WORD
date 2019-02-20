@@ -1,0 +1,19 @@
+Sub CopyPaste()
+    Application.DisplayAlerts = False
+    Dim WDapp As Word.Application  'Word 應用程式
+    Dim theDoc As Document          'Word 文件
+    Dim Table1 As Table             'Word 表格
+    Set WDapp = New Word.Application    '啟動Word
+    WDapp.Visible = True    '顯示Word
+    '開啟theTable.doc文件
+    Set theDoc = WDapp.Documents.Open("C:\Users\s4017\Desktop\2019事件表.docx")
+    'Set Table1 = theDoc.Tables(1)    '設定第一個表格
+    WDapp.Selection.WholeStory
+    WDapp.Selection.Copy  '複製表格
+    Range("A1").Select         '移動到D10儲存格
+    '選擇性貼上..文字
+    ActiveSheet.PasteSpecial Format:="HTML", Link:=False, DisplayAsIcon:=False
+    theDoc.Close False          '關閉theTable.doc
+    WDapp.Quit      '關閉Word
+    Application.DisplayAlerts = True
+End Sub
