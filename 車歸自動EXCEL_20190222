@@ -1,0 +1,114 @@
+Private Sub Worksheet_Change(ByVal Target As Range)     '***************************************
+    'MsgBox "選擇儲存格 (" & Target.Row & "," & Target.Column & ") & Target.value &"
+    If Target.Column = 1 Then
+        If Cells(Target.Row, "H").Value = "PRODUCT_ID_FULL" Then
+            MsgBox ("請不要貼上標題列")
+            Exit Sub
+        Else
+            If MsgBox("現在開始創建工作頁", vbYesNo) = vbYes Then
+                
+                Call main4(Target.Row)
+                Worksheets("main").Select
+                MsgBox ("現在開始分類資料")
+                Call main3(Target.Row)
+            Else
+                Exit Sub
+            End If
+        End If
+    End If
+End Sub
+
+
+
+Option Explicit
+
+Public Sub test()
+    Dim i As Integer
+    i = 1
+    Do While Cells(i, "A").Value <> ""
+        i = i + 1
+    Loop
+End Sub
+
+
+Public Sub main1()
+    Dim i As Integer, sht As Worksheet
+    i = 2
+    Set sht = Worksheets("main") '主worksheets
+    Do While sht.Cells(i, "H").Value <> "" '在迴圈裡判斷
+        On Error Resume Next    'if worksheet 不存在 在下一行會跳出中斷
+        If Worksheets(sht.Cells(i, "H").Value) Is Nothing Then  '判斷是WORKSHEET否存在 (不存在為TURE)
+            Worksheets("sorted_data").Copy after:=Worksheets(Worksheets.Count)  '即不存在執行裡面的指令
+            ActiveSheet.Name = sht.Cells(i, "H").Value      '使用複製的Worksheets("sorted_data")
+        End If
+        i = i + 1
+    Loop
+End Sub
+
+
+Public Sub main2()
+    Dim i As Long, bj As String, rng As Range
+    i = 2
+    bj = Cells(i, "H").Value
+    Application.ScreenUpdating = False
+    Do While bj <> ""
+        Set rng = Worksheets(bj).Range("C65536").End(xlUp).Offset(1, 0) '從BJ工作頁A65536格大往上，再向下位移一個
+        Cells(i, "A").Resize(1, 72).Copy rng
+        i = i + 1
+        bj = Cells(i, "H").Value
+    Loop
+    Application.ScreenUpdating = True
+End Sub
+
+
+Public Sub main3(ByVal T_Row As Integer)     '***************************************
+    'MsgBox ("2" & T_Row)
+    Dim i As Long, bj As String, rng As Range
+    Dim load_Date As Date, rng2 As Range, rng3 As Range
+    i = T_Row   '開始的點
+    bj = Cells(i, "H").Value
+    Application.ScreenUpdating = False
+    Do While bj <> ""
+        Set rng = Worksheets(bj).Range("C65536").End(xlUp).Offset(1, 0) '從BJ工作頁A65536格大往上，再向下位移一個
+        Set rng2 = Worksheets(bj).Range("A65536").End(xlUp).Offset(1, 0) 'A column for load_date
+        Set rng3 = Worksheets(bj).Range("B65536").End(xlUp).Offset(1, 0) 'B column for load_date
+        Cells(i, "A").Resize(1, 72).Copy rng
+        load_Date = Cells(i, "G").Value 'load_date
+        'MsgBox (load_Date & "++++" & Month(load_Date))
+        rng2.Value = Month(load_Date)
+        rng3.Value = "WK" & Application.WeekNum(load_Date)
+        i = i + 1
+        bj = Cells(i, "H").Value
+    Loop
+    Application.ScreenUpdating = True
+End Sub
+
+
+Public Sub main4(ByVal T_Row As Integer)     '***************************************
+    Dim i As Integer, sht As Worksheet
+    Dim S_name As String
+    i = T_Row   '開始的點
+    Application.ScreenUpdating = False
+    Set sht = Worksheets("main") '主worksheets
+    Do While sht.Cells(i, "H").Value <> "" '在迴圈裡判斷
+        On Error Resume Next    'if worksheet 不存在 在下一行會跳出中斷
+        If Worksheets(sht.Cells(i, "H").Value) Is Nothing Then  '判斷是WORKSHEET否存在 (不存在為TURE)
+            Worksheets("sorted_data").Copy after:=Worksheets(Worksheets.Count)  '即不存在執行裡面的指令
+            ActiveSheet.Name = sht.Cells(i, "H").Value      '使用複製的Worksheets("sorted_data")
+            ActiveSheet.Tab.ColorIndex = xlNone
+                        
+            S_name = "'" & ActiveSheet.Name & "'"
+            
+            Worksheets("summary").Copy after:=Worksheets(Worksheets.Count)
+            ActiveSheet.Name = sht.Cells(i, "H").Value & "_summary"
+            ActiveSheet.Tab.ColorIndex = xlNone
+            
+            Cells.Replace What:="sorted_data", Replacement:=S_name, LookAt _
+                :=xlPart, SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+                ReplaceFormat:=False
+
+        End If
+        i = i + 1
+    Loop
+    Application.ScreenUpdating = True
+End Sub
