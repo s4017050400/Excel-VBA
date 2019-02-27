@@ -1,0 +1,44 @@
+Option Explicit
+
+Public Sub main()
+    Dim InputBoolArr(7) As Boolean  'Input pins 0 1 2 3 4 5 6 7用一個陣列即可
+    'Dim InputBoolArr_(6) As Boolean   'invert input pins
+    Dim OR_1, OR_2, OR_3, OR_4, OR_5, OR_6 As Boolean
+    Dim AND_1, AND_2, BLKn As Boolean
+    Dim DQ_even, DQ_odd As Boolean
+    Dim index_ As Integer
+    
+    For index_ = 1 To 8
+    
+        If Cells(5, index_).Value = 1 Then
+            InputBoolArr(index_ - 1) = True '0=A4, 1=A5, 2=A6, 3=A7, 4=A8, 5=A9, 6=A10, 7=A11
+            MsgBox "A" & (index_ + 3) & "_" & InputBoolArr(index_ - 1)
+        Else
+            InputBoolArr(index_ - 1) = False
+            MsgBox "A" & (index_ + 3) & "_" & InputBoolArr(index_ - 1)  'array(7)
+        End If
+    
+    Next index_
+    
+    OR_1 = (InputBoolArr(0) Or InputBoolArr(1) Or (Not InputBoolArr(2)))
+    OR_2 = ((Not InputBoolArr(0)) Or (Not InputBoolArr(1)) Or InputBoolArr(2))
+    
+    AND_1 = (OR_1 And InputBoolArr(2))
+    AND_2 = (OR_2 And (Not InputBoolArr(2)))
+    
+    OR_3 = (InputBoolArr(3) Or (Not InputBoolArr(4)) Or InputBoolArr(5) Or (Not InputBoolArr(6)) Or AND_1)
+    OR_4 = (InputBoolArr(4) Or InputBoolArr(5) Or (Not InputBoolArr(6)))
+    OR_5 = ((Not InputBoolArr(4)) Or (Not InputBoolArr(5)) Or InputBoolArr(6))
+    OR_6 = ((Not InputBoolArr(3)) Or InputBoolArr(4) Or (Not InputBoolArr(5)) Or InputBoolArr(6) Or AND_2)
+    
+    BLKn = (OR_3 And OR_4 And OR_5 And OR_6)
+    Cells(5, 9).Value = BLKn
+    
+    DQ_even = (InputBoolArr(7) Xor BLKn)
+    DQ_odd = Not (InputBoolArr(7) Xor BLKn)
+    
+    Cells(5, 10).Value = DQ_even
+    Cells(5, 11).Value = DQ_odd
+    
+    'MsgBox BLKn & "_" & DQ_even & "_" & DQ_odd
+End Sub
